@@ -87,6 +87,37 @@ It is also possible to create conditional rules. Read more at [AWS Documentation
 
 # Radio
 
-This script uses the (rtl_433)[https://github.com/merbanan/rtl_433] to receive data from the SDR device.
+This script uses the [rtl_433](https://github.com/merbanan/rtl_433) to receive data from the SDR device.
+
+A compatible RTL-SDR device needs to be attached.
 
 Data is returned from a separate process as JSON which is then parsed.
+
+# Service installation
+
+The following can be used to install this script as a service on a Rasbperry Pi or other server using systemd:
+
+File `/etc/systemd/system/honeywell-doorbell-mqtt.service`
+
+```
+[Unit]
+Description=Honeywell Doorbell MQTT Publish Service
+After=multi-user.target
+Requires=network.target
+
+[Service]
+Type=idle
+User=pi
+WorkingDirectory=/home/pi/rtl_433
+ExecStart=/usr/bin/python3 doorbell.py
+Restart=no
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Be sure to modify user and working directory to suit your installation.
+
+To start the service, run `sudo systemctl start honeywell-doorbell-mqtt.service` (and use `stop` to halt the service).
+
+To _enable_ the service to start automatically on boot, run `sudo systemctl enable honeywell-doorbell-mqtt.service` (and use `disable` instead to remove automatic start).
