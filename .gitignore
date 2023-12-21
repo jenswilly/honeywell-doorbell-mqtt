@@ -1,0 +1,7 @@
+__pycache__
+
+# Credentials
+*.pem
+*.crt
+*.key
+config.py
