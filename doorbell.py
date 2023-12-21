@@ -48,7 +48,12 @@ def execute(cmd):
 	if return_code:
 		raise subprocess.CalledProcessError(return_code, cmd)
 
-for result in execute([Config.rtl433BinaryPath, '-f','868.300M', '-F', 'json', '-Y', 'classic']):
+# Launch with parameters rtl_433 -f 868.300M -F json -Y classic -R 116
+# -f 868.300M: frequency
+# -F json: output format
+# -Y classic: output format
+# -R 116: Honeywell Doorbell (FSK)
+for result in execute([Config.rtl433BinaryPath, '-f','868.300M', '-F', 'json', '-Y', 'classic', '-R', '116']):
 	# Parse the json
 	parsed_json = json.loads(result)
 
